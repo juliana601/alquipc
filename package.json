@@ -1,0 +1,19 @@
+{
+  "name": "alquipc",
+  "version": "1.0.0",
+  "description": "Aplicación web para cotización de alquileres ALQUIPC",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

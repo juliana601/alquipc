@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ALQUIPC | Solicitud de alquiler</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="card">
+        <div class="brand">ALQUIPC</div>
+        <h1>Solicitud de alquiler de equipos</h1>
+        <p class="subtitle">Cotización rápida y segura para tu empresa.</p>
+
+        <% if (errors && errors.length > 0) { %>
+          <div class="alert">
+            <ul>
+              <% errors.forEach((error) => { %>
+                <li><%= error %></li>
+              <% }) %>
+            </ul>
+          </div>
+        <% } %>
+
+        <form action="/cotizar" method="POST">
+          <div class="form-grid">
+            <label>
+              Nombre del cliente
+              <input type="text" name="nombre" value="<%= form.nombre || '' %>" required />
+            </label>
+
+            <label>
+              Teléfono
+              <input type="text" name="telefono" inputmode="numeric" value="<%= form.telefono || '' %>" required />
+            </label>
+
+            <label>
+              Correo electrónico
+              <input type="email" name="correo" value="<%= form.correo || '' %>" required />
+            </label>
+
+            <label>
+              Cantidad de equipos
+              <input type="number" name="equipos" min="2" value="<%= form.equipos || 2 %>" required />
+            </label>
+
+            <label>
+              Días de alquiler
+              <input type="number" name="dias" min="1" value="<%= form.dias || 1 %>" required />
+            </label>
+
+            <label>
+              Días adicionales
+              <input type="number" name="adicionales" min="0" value="<%= form.adicionales || 0 %>" required />
+            </label>
+
+            <label>
+              Tipo de servicio
+              <select name="tipo" required>
+                <option value="" disabled <%= !form.tipo ? 'selected' : '' %>>Seleccione una opción</option>
+                <option value="ciudad" <%= form.tipo === 'ciudad' ? 'selected' : '' %>>Dentro de la ciudad</option>
+                <option value="fuera" <%= form.tipo === 'fuera' ? 'selected' : '' %>>Fuera de la ciudad</option>
+                <option value="establecimiento" <%= form.tipo === 'establecimiento' ? 'selected' : '' %>>Dentro del establecimiento</option>
+              </select>
+            </label>
+          </div>
+
+          <button type="submit">Generar factura</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

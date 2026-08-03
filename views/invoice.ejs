@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ALQUIPC | Factura</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="card invoice-card">
+        <div class="brand">ALQUIPC</div>
+        <h1>Factura de alquiler</h1>
+        <p class="subtitle">Resumen del servicio solicitado.</p>
+
+        <div class="invoice-grid">
+          <div class="detail-row"><span>ID cliente</span><strong><%= invoice.idCliente %></strong></div>
+          <div class="detail-row"><span>Nombre</span><strong><%= invoice.nombre %></strong></div>
+          <div class="detail-row"><span>Teléfono</span><strong><%= invoice.telefono %></strong></div>
+          <div class="detail-row"><span>Correo</span><strong><%= invoice.correo %></strong></div>
+          <div class="detail-row"><span>Tipo de servicio</span><strong><%= invoice.tipoServicio %></strong></div>
+          <div class="detail-row"><span>Cantidad de equipos</span><strong><%= invoice.equipos %></strong></div>
+          <div class="detail-row"><span>Días de alquiler</span><strong><%= invoice.dias %></strong></div>
+          <div class="detail-row"><span>Días adicionales</span><strong><%= invoice.diasAdicionales %></strong></div>
+        </div>
+
+        <div class="summary-box">
+          <div class="summary-row"><span>Valor base</span><strong><%= invoice.base %></strong></div>
+          <div class="summary-row"><span><%= invoice.serviceLabel %></span><strong><%= invoice.serviceValue %></strong></div>
+          <div class="summary-row"><span><%= invoice.additionalLabel %></span><strong><%= invoice.additionalValue %></strong></div>
+          <div class="summary-row total"><span>Valor total a pagar</span><strong><%= invoice.total %></strong></div>
+        </div>
+
+        <a class="button secondary" href="/">Nueva cotización</a>
+      </div>
+    </div>
+  </body>
+</html>
