@@ -2,7 +2,6 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
-const nodemailer = require('nodemailer');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -57,19 +56,6 @@ const formatCurrency = (value) =>
     currency: 'COP',
     maximumFractionDigits: 0
   }).format(value);
-
-// ======================================================
-// CONFIGURACIÓN DEL CORREO
-// ======================================================
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD
-  }
-});
 
 // ======================================================
 // RUTA PRINCIPAL
@@ -358,149 +344,12 @@ app.post('/cotizar', async (req, res) => {
   };
 
   // ====================================================
-  // ENVÍO DE FACTURA POR CORREO
+  // MOSTRAR FACTURA
   // ====================================================
 
-  try {
-
-    await transporter.sendMail({
-
-      from: process.env.EMAIL_USER,
-
-      to: correo,
-
-      subject: `Factura ALQUIPC - ${idCliente}`,
-
-      html: `
-
-        <h1>ALQUIPC - Factura de alquiler</h1>
-
-        <h2>Información del cliente</h2>
-
-        <p>
-          <strong>Id-cliente:</strong>
-          ${idCliente}
-        </p>
-
-        <p>
-          <strong>Nombre:</strong>
-          ${nombre}
-        </p>
-
-        <p>
-          <strong>Teléfono:</strong>
-          ${telefono}
-        </p>
-
-        <p>
-          <strong>Correo:</strong>
-          ${correo}
-        </p>
-
-        <hr>
-
-        <h2>Información del alquiler</h2>
-
-        <p>
-          <strong>Opción de alquiler:</strong>
-          ${service.label}
-        </p>
-
-        <p>
-          <strong>Equipos alquilados:</strong>
-          ${equipos}
-        </p>
-
-        <p>
-          <strong>Días iniciales:</strong>
-          ${dias}
-        </p>
-
-        <p>
-          <strong>Días adicionales:</strong>
-          ${adicionales}
-        </p>
-
-        <p>
-          <strong>Días totales:</strong>
-          ${diasTotales}
-        </p>
-
-        <p>
-          <strong>Precio por equipo/día:</strong>
-          ${formatCurrency(precioPorDia)}
-        </p>
-
-        <hr>
-
-        <h2>Detalle del valor</h2>
-
-        <p>
-          <strong>Valor inicial:</strong>
-          ${formatCurrency(valorInicial)}
-        </p>
-
-        <p>
-          <strong>Valor días adicionales:</strong>
-          ${formatCurrency(valorAdicionales)}
-        </p>
-
-        <p>
-          <strong>Subtotal:</strong>
-          ${formatCurrency(subtotalConAdicionales)}
-        </p>
-
-        <p>
-          <strong>${serviceLabel}:</strong>
-          ${formatCurrency(serviceAdjustment)}
-        </p>
-
-        <p>
-          <strong>${additionalLabel}:</strong>
-          -${formatCurrency(additionalDiscount)}
-        </p>
-
-        <h2>
-          TOTAL A CANCELAR:
-          ${formatCurrency(total)}
-        </h2>
-
-        <hr>
-
-        <p>
-          Gracias por utilizar los servicios de ALQUIPC.
-        </p>
-
-      `
-    });
-
-    // Si el correo se envió correctamente,
-    // mostramos la factura.
-
-    res.render('invoice', {
-      invoice,
-      emailSent: true
-    });
-
-  } catch (error) {
-
-    console.error(
-      'Error enviando el correo:',
-      error
-    );
-
-    // La factura se puede seguir mostrando
-    // aunque el correo falle.
-
-    res.render('invoice', {
-      invoice,
-      emailSent: false,
-
-      emailError:
-        'La factura fue generada, pero no se pudo enviar el correo.'
-    });
-
-  }
+  res.render('invoice', {
+    invoice
+  });
 
 });
 
